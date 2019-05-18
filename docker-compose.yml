@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+    jenkins:
+        container_name: jenkins
+        build:
+            context: jenkins/config
+            dockerfile: Dockerfile
+        
+        privileged: true  
+        volumes:
+            - ./jenkins/config/rsync_config:/var/lib/jenkins/rsync_config
+        ports:
+            - "52:22"
+        cap_add:
+            - SYS_ADMIN
+        networks:
+            elk:
+                aliases:
+                    - jenkins.exemple.com
+        tty: true
+          
+
+
+
+
+
+    proxyserver:
+        container_name: proxyserver
+        build:
+            context: ./nginx7/config/
+            dockerfile: Dockerfile
+        privileged: true    
+        volumes:
+            - ./data/certbot/conf:/etc/letsencrypt
+            - ./data/certbot/www:/var/www/certbot
+        ports:
+            - "80:80"
+            - "443:443"
+            - "42:22"
+        networks:
+            - elk
+        tty: true
+        
+        depends_on:
+            - jenkins
+            
+#    certbot:
+#        image: certbot/certbot
+#        container_name: certbot
+#        volumes:
+#           - ./data/certbot/conf:/etc/letsencrypt
+#           - ./data/certbot/www:/var/www/certbot
+#           
+#          - certbot-etc:/etc/letsencrypt
+#          - certbot-var:/var/lib/letsencrypt
+#          - web-root:/var/www/html
+#        depends_on:
+#          - proxyserver
+#        command: certbot certonly --dry-run --webroot-path=/var/www/certbot --email max@exemple.com --agree-tos --no-eff-email --staging -d exemple.com 
+#        privileged: true        
+            
+            
+            
+            
+networks:
+    elk:
+        driver: bridge
