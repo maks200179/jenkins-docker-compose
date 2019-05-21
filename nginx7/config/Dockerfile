@@ -22,7 +22,7 @@ RUN echo 'root:exemple' | chpasswd
 RUN yum -y install epel-release
 RUN yum -y install nginx
 RUN mkdir /etc/ssl/private && chmod 700 /etc/ssl/private 
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/jenkins-selfsigned.key -out /etc/ssl/certs/jenkins-selfsigned.crt  -subj "/C=IL/ST=Merkaz/L=Revadim/O=Global Security/OU=IT Department/CN=jenkins.smart-farm.co" 
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/jenkins-selfsigned.key -out /etc/ssl/certs/jenkins-selfsigned.crt  -subj "/C=IL/ST=State/L=State/O=Global Security/OU=IT Department/CN=jenkins.example.co" 
 RUN echo "nginx" > /usr/share/nginx/html/index.html
 RUN systemctl enable nginx
 RUN yum clean all
