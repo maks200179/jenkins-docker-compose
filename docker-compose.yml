@@ -9,7 +9,7 @@ services:
         
         privileged: true  
         volumes:
-            - ./jenkins/config/rsync_config:/var/lib/jenkins/rsync_config
+            - /jenkins_data:/var/lib/jenkins/
         ports:
             - "52:22"
         cap_add:
