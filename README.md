@@ -1,4 +1,4 @@
-# Jenkins_docker-compose
+### Jenkins on docker centos7
 
 ```
 Here is simple exemple of jenkins on docker with reverse proxy. 
